@@ -1,0 +1,52 @@
+.abc{
+    background-color: #0055A2;
+    width: 90px;
+    position: relative;
+    height: 100vh;
+    z-index: 2;
+    margin-left: -15px;
+}
+
+.list_size{
+    width: 88px;
+    height: 66.2px;
+}
+
+.list_header{
+    width: 88px;
+    height: 80px;
+    background-color: white;
+    color: #E6A923;
+    font-size: 18px
+}
+
+.ax{
+    font-size: 18px;
+}
+
+  .transform {
+    margin-left:-300px; 
+    position: absolute;
+    height: 100%;
+    transition: all 1s ease;
+    z-index: 1;
+  }
+  
+  .transform-active {
+      z-index: 1;
+    position: absolute;
+    background-color: whitesmoke;
+    margin-left:80px;
+    height: 100%;
+    width: 300px; 
+  }
+
+.profile{
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+
+.bord{
+    border-style: solid ;
+}
