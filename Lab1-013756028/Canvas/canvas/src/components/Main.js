@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import {Route} from 'react-router-dom';
 import Login from './Login/Login';
-import Home from './Home/Home';
-import Delete from './Delete/Delete';
-import Create from './Create/Create';
 import Navbar from './LandingPage/Navbar';
 import dashboard from './dashboard';
 import courses_page from './courses_page';
@@ -23,9 +20,6 @@ class Main extends Component {
                 {/*Render Different Component based on Route*/}
                 {/* <Route path="/" component={Navbar}/> */}
                 <Route path="/login" component={Login}/>
-                <Route path="/home" component={Home}/>
-                <Route path="/delete" component={Delete}/>
-                <Route path="/create" component={Create}/>
                 <Route path="/dashboard" component={dashboard}/>
                 <Route path="/edit_profile" component={edit_profile}/>
                 <Route path="/profile_update" component={profile_update}/>

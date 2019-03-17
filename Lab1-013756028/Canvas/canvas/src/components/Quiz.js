@@ -102,6 +102,11 @@ class Quiz extends Component {
     }
 
     componentDidMount = async () => {
+        if(localStorage.getItem('student_or_faculty') == 'student'){
+            await this.setState({
+                visibility:'hidden'
+            })
+        }
         const data = {
             course_id: localStorage.getItem('course_id')
         }
@@ -135,7 +140,7 @@ class Quiz extends Component {
             <div class='container'>
                 <div class='class row'>
                     <h2>Quizzes</h2>
-                    <button class='btn btn-primary' type='button' data-toggle="modal" data-target="#myModal" style={{ marginLeft: '70%', marginBottom: '2%' }}><span class='fas fa-plus-circle'></span>Create New Quiz</button>
+                    <button class='btn btn-primary' type='button' data-toggle="modal" data-target="#myModal" style={{ marginLeft: '70%', marginBottom: '2%', visibility:this.state.visibility }}><span class='fas fa-plus-circle'></span>Create New Quiz</button>
                 </div>
                 {details}
                 <div class="modal fade" id="myModal" role="dialog">
