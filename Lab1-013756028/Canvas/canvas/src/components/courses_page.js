@@ -5,22 +5,32 @@ import {Redirect} from 'react-router';
 import Announcements from './Announcements';
 import Test1 from './Test1';
 import '../styles/courses_page.css'
+import Navbar from './LandingPage/Navbar';
+import Quiz from './Quiz'
+import Quiz_questions from './Quiz_questions'
+import People from './People'
+import Grades from './Grades'
 
 
 //Define a Login Component
 class courses_page extends Component{
     //call the constructor method
-    constructor(){
+    constructor(props){
         //Call the constrictor of Super class i.e The Component
-        super();
+        super(props);
         this.state= {
             subjects: 3,
-            temp: ""
+            temp:''
         }
-
     }
 
     progress = (e) =>{
+        this.setState({
+            temp : e
+        });
+    }
+
+    mycallback = (e) =>{
         console.log(e)
         this.setState({
             temp : e
@@ -29,6 +39,8 @@ class courses_page extends Component{
 
     render(){
         return(
+        <div>
+        <Navbar/> 
         <div className = 'col-md-11'>    
             <div className = 'col-md-12' >
                 <h2>{localStorage.getItem('course_id')}</h2>
@@ -39,10 +51,11 @@ class courses_page extends Component{
                     <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <Announcements/>)}>Announcements</a></div>
                     {/* <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <Assignments/>)}>Assignments</a></div> */}
                     <div class = 'course_page_side_tab'><a href = '#'>Discussions</a></div>
-                    {/* <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <Grades/>)}>Grades</a></div> */}
-                    {/* <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <People/>)}>People</a></div> */}
+                    <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <Grades/>)}>Grades</a></div>
+                    <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <People/>)}>People</a></div>
                     {/* <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <Files/>)}>Files</a></div> */}
                     <div class = 'course_page_side_tab'><a href = '#'>Syllabus</a></div>
+                    <div class = 'course_page_side_tab'><a onClick = {this.progress.bind(this,<Quiz callbackfromparent = {this.mycallback.bind(this,<Quiz_questions/>)}/>)}>Quizzes</a></div>
                     <div class = 'course_page_side_tab'><a href = '#'>Modules</a></div>
                     <div class = 'course_page_side_tab'><a href = '#'>Conferences</a></div>
                     <div class = 'course_page_side_tab'><a href = '#'>Collaborations</a></div>                
@@ -52,10 +65,11 @@ class courses_page extends Component{
                     <div class = 'course_page_side_tab'><a href = '#'>SOTe/SOLATE</a></div>
                 </ul>
             </div>
-            <div className = 'col-md-11'>
+            <div className = 'col-md-10 col-md-offset-1'>
                 <div>{this.state.temp}</div>
             </div>
         </div>
+        </div> 
         )
     }
 }
