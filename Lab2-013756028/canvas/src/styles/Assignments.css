@@ -1,0 +1,37 @@
+.maindiv{
+    width:100%;
+    margin-left:15%;
+    margin-top:1%;
+    background-color: #F5F5F5;
+    padding:10px;
+}
+/* li{
+    width:100%;
+    height:1%;
+    margin-left: -2%;
+    background-color: white;
+} */
+ /* ul{
+    width:100%;
+} */
+ /* a{
+    color:#2D3B45;
+    
+} */
+.stl{
+    font-weight: 600;
+    
+}
+.fonthere{
+    font-weight: 300;
+    color:#6A757D;
+}
+.onelinespace{
+height:10px;
+}
+.pad{
+    padding:10px;
+}
+.mn{
+    height:40px;
+}
