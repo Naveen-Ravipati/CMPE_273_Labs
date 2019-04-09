@@ -156,7 +156,7 @@ class Navbar extends Component {
                 <nav class="navbar abc">
                     <div class>
                         <div>
-                            <a href="#">
+                            <a href="./dashboard">
                                 <img class='list_header' src={require('../../Images/logo.PNG')}></img>
                             </a>
                         </div>
@@ -201,7 +201,7 @@ class Navbar extends Component {
                                 </a>
                             </li>
                             <li class='list_size'>
-                                <a href='#'>
+                                <a href='./message_to'>
                                     <span class='fa fa-inbox fa-2x'>
                                     </span>
                                     <div style={{ fontSize: '15px' }}>

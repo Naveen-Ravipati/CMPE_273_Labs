@@ -46,9 +46,6 @@ var {add_courses} = require('../models/add_courses')
 
       router.post('/create_assignment',function(req,res){
         console.log(req.body)
-      //   con.query("INSERT INTO  assignmentlist(name,due,marks,courseid) VALUES(?,?,?,?)",[req.body.assignment_name,req.body.assignment_due,req.body.assignment_marks,req.body.course_id], function (err, result, fields) {
-      //     if (err) console.log(err)
-      // });
       add_courses.findOneAndUpdate({course_id:req.body.course_id},{$push: {assignments:{assignment_name:req.body.assignment_name , assignment_due:req.body.assignment_due , assignment_marks:req.body.assignment_marks}}},{upsert:true},function (err, result) {
         if(err){
           console.log(err)

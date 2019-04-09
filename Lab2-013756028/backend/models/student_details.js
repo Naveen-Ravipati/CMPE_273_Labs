@@ -53,6 +53,9 @@ const student_details_schema= new mongoose.Schema({
     courses_registered: {
         type:Array
     },
+    messages:{
+        type:Array
+    }
 },{ strict: false })
 var student_details = mongoose.model('student_details',student_details_schema);
 

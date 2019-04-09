@@ -21,6 +21,8 @@ var announcements = require('./apis/announcements')
 var quiz = require('./apis/quiz')
 var people = require('./apis/people')
 var add_course = require('./apis/add_course')
+var message_to = require('./apis/messages')
+var send_message = require('./apis/messages')
 
 // var mlog =require('mocha-logger');
 
@@ -93,6 +95,8 @@ app.use(function (req, res, next) {
     app.use('/', quiz);
     app.use('/', people);
     app.use('/', add_course);
+    app.use('/', message_to);
+    app.use('/', send_message);
 
 
 //start your server on port 3001

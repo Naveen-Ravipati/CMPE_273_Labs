@@ -13,6 +13,7 @@ import course_register from './course_register'
 import add_course from './add_course'
 import edit_profile from './edit_profile'
 import profile_update from './profile_update';
+import message_to from './message_to'
 
 //import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
@@ -32,7 +33,8 @@ class Main extends Component {
                 <Route path="/courses_page" component={courses_page}/>
                 <Route path="/Test1" component={Test1}/>
                 <Route path="/course_register" component={course_register}/>   
-                <Route path="/add_course" component={add_course}/>           
+                <Route path="/add_course" component={add_course}/>    
+                <Route path="/message_to" component={message_to}/>           
             </div>
         )
     }

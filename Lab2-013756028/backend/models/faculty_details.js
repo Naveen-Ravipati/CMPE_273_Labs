@@ -51,8 +51,11 @@ const faculty_details_schema= new mongoose.Schema({
     about_me : {
         type : String
     },
+    messages : {
+        type : Array
+    }
     
-})
+},{ strict: false })
 var faculty_details = mongoose.model('faculty_details',faculty_details_schema);
 
 //Users.createIndexes({username:1},{unique:true},)
