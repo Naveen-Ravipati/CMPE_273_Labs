@@ -86,7 +86,7 @@ class Login extends Component {
     }
 
     renderRedirect = () => {
-        console.log('here'+this.props.redirectVar)
+        alert(this.props.redirectVar)
         if (this.props.redirectVar) {
             if(this.state.student_or_faculty == 'student'){
                 localStorage.setItem('student_id', this.state.username);
@@ -96,6 +96,15 @@ class Login extends Component {
                 localStorage.setItem('faculty_id', this.state.username);
                 localStorage.setItem('student_or_faculty', 'faculty');
             }
+        this.setState({
+            redirectVar:<Redirect to='/dashboard' />
+        }) 
+        }
+    }
+
+    componentDidMount=()=>{
+        // alert(+this.props.redirectVar)
+        if (this.props.redirectVar == true) {
         this.setState({
             redirectVar:<Redirect to='/dashboard' />
         }) 
@@ -117,7 +126,7 @@ class Login extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         await this.props.submit_login(username, password,student_or_faculty)
-        alert('here')
+        // alert('here')
         // setTimeout(() => {
         if (this.props.response === 400){
             alert('Invalid username/password');

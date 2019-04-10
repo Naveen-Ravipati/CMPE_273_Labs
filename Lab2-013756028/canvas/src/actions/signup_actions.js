@@ -19,7 +19,7 @@ export const submit_signup = (new_email,new_password,new_studentid,new_student_o
     /********************Signup **************************/
     axios.post('http://localhost:3001/new_user', data)
         .then(response => {
-            alert("response received after Signup :", response.status);
+            // alert("response received after Signup :", response.status);
             console.log(response.status);
             dispatch({
                 type: SUBMIT_SIGNUP,

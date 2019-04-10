@@ -6,7 +6,7 @@ import axios from "axios";
 
 export const submit_login = (username, password,student_or_faculty) => dispatch => {
     //code here
-    alert("Actions : verfying login...");
+    // alert("Actions : verfying login...");
     axios.defaults.withCredentials = true;
     const data = {
         username: username,
@@ -18,7 +18,7 @@ export const submit_login = (username, password,student_or_faculty) => dispatch 
     /********************LOGIN **************************/
     axios.post('http://localhost:3001/login', data)
         .then(response => {
-            alert("response received after login :", response.status);
+            // alert("response received after login :", response.status);
             console.log(response.status);
             dispatch({
                 type: SUBMIT_LOGIN,
@@ -27,7 +27,7 @@ export const submit_login = (username, password,student_or_faculty) => dispatch 
             })
         })
         .catch((error) => {
-            console.log("Action Catch : ", error.response.status);
+            // console.log("Action Catch : ", error.response.status);
             dispatch({
                 //ERROR 400 status
                 type: SUBMIT_LOGIN,

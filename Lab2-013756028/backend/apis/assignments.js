@@ -7,12 +7,23 @@ var mysql = require('../config/sql').mysql
 var con = require('../config/sql').con
 var {add_courses} = require('../models/add_courses')
 
+
+
+// app.get('/seeFiles',function(req,res){
+//    console.log("inside see files")
+//   fs.readdir( "./submissions/assignments/", function(err, items) {
+//       //console.log(items);
+   
+//       res.end(JSON.stringify(items));
+//   });
+// })
+
 // router.post('/getassignmentdet',function(req,res){
 //     con.query("SELECT * FROM assignmentlist WHERE courseid ="+req.body.courseid+" AND assignmentid="+req.body.assignmentid, function (err, result, fields) {
 //       if (err) console.log(err);
 //       res.end(JSON.stringify(result))
 //   });
-//   })
+
   
   // router.post('/get_assignment',function(req,res){
   //   var courseid = req.body.courseid

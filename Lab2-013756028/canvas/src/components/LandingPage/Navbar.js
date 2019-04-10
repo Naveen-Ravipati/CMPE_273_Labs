@@ -78,6 +78,13 @@ class Navbar extends Component {
     }
 
     componentDidMount=async()=>{
+
+        if (this.props.redirectVar == false) {
+            // alert('here')
+        this.setState({
+            redirectVar:<Redirect to='/' />
+        }) 
+        }
         await this.setState({
             student_or_faculty: localStorage.getItem('student_or_faculty'),
         })

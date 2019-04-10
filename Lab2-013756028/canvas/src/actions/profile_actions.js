@@ -6,7 +6,7 @@ import axios from "axios";
 
 export const Profile_fetch = () => dispatch => {
     //code here
-    alert("Actions :Profile details ...");
+    // alert("Actions :Profile details ...");
     axios.defaults.withCredentials = true;
     // this.setState(
     //     {
@@ -23,7 +23,7 @@ export const Profile_fetch = () => dispatch => {
     /********************LOGIN **************************/
     axios.post('http://localhost:3001/edit_profile',data)
         .then(response => {
-            alert("response received after profile click :", response.status);
+            // alert("response received after profile click :", response.status);
             console.log(response.status);
             console.log(response.data[0])
             let info_fetch = response.data[0]

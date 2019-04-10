@@ -79,6 +79,7 @@ class Quiz_questions extends Component {
 
         var details = this.state.quiz_questions.map(quiz_question => {
                 // console.log("sfd")
+        if(localStorage.getItem('quiz_id') == quiz_question.quiz_id){
                 return(
                     <div>
                         <div> 
@@ -90,7 +91,9 @@ class Quiz_questions extends Component {
                         </div>
                     </div>
                 )
+        }
             })
+        
                 
         //if not logged in go to login page
 

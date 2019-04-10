@@ -5,6 +5,9 @@ import { Redirect } from 'react-router';
 import '../styles/dashboard.css'
 import Navbar from '../components/LandingPage/Navbar';
 
+/* REDUX IMPORTS BEGIN */
+import { connect } from 'react-redux';
+
 //Define a Login Component
 class dashboard extends Component {
     //call the constructor method
@@ -22,6 +25,14 @@ class dashboard extends Component {
     }
 
     componentDidMount = async () => {
+        // alert('dashboard')
+        // alert(this.props.redirectVar)
+        if (this.props.redirectVar == false) {
+            // alert('here')
+        this.setState({
+            redirectVar:<Redirect to='/' />
+        }) 
+        }
 
         if (localStorage.getItem('student_or_faculty') == 'student') {
             await this.setState({
@@ -112,8 +123,8 @@ class dashboard extends Component {
         return (
 
             <div>
+            {this.state.redirectVar}
                 <Navbar />
-                {/* {redirectVar} */}
                 <div>
                     <div class='col-md-11'><h2>Dashboard</h2></div>
                 </div>
@@ -123,5 +134,17 @@ class dashboard extends Component {
         )
     }
 }
-//export Login Component
-export default dashboard;
+
+
+
+//subscribe to Redux store updates.
+const mapStateToProps = (state) => ({
+    // variables below are subscribed to changes in loginState variables (redirectVar,Response) and can be used with props.
+    redirectVar: state.loginState.redirectVar,
+    response: state.loginState.response
+    // ...state.loginState
+
+})
+
+export default connect(mapStateToProps)(dashboard);
+// export default dashboard;

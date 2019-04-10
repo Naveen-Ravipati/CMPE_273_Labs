@@ -6,7 +6,7 @@ import axios from "axios";
 
 export const submit_logout = () => dispatch => {
     //code here
-    alert("Actions : verfying logout...");
+    // alert("Actions : verfying logout...");
     axios.defaults.withCredentials = true;
 
     /********************LOGOUT **************************/
