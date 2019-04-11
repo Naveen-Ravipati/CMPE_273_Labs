@@ -24,7 +24,9 @@ class Grades extends Component {
         const data = {
             ...this.state
         }
-        await axios.post('http://localhost:3001/grades', data)
+        var token = localStorage.getItem("token");
+        await axios.post('http://localhost:3001/grades', data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
             .then((response) => {
                 //update the state with the response data
                     this.setState({

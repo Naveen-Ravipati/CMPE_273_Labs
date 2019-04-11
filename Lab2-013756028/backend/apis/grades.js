@@ -7,33 +7,11 @@ var mysql = require('../config/sql').mysql
 var con = require('../config/sql').con
 var {add_courses} = require('../models/add_courses')
 
-// router.post('/grades', function (req, res) {
-//     console.log("Inside Grades");
-//     if (req.body.student_or_faculty == 'student') {
-//         con.query("SELECT * FROM grades WHERE student_id = " + mysql.escape(req.body.student_id) + " AND course_id = " + mysql.escape(req.body.course_id), function (err, result) {
-//             if (err) throw err;
-//             console.log(result);
-//             res.writeHead(200, {
-//                 'Content-Type': 'application/json'      
-//             });
-//             console.log("Quizzes : ", JSON.stringify(result));
-//             res.end(JSON.stringify(result));
-//         });
-//     }
-//     else if (req.body.student_or_faculty == 'faculty') {
-//         con.query("SELECT * FROM grades WHERE course_id = " + mysql.escape(req.body.course_id), function (err, result) {
-//             if (err) throw err;
-//             console.log(result);
-//             res.writeHead(200, {
-//                 'Content-Type': 'application/json'
-//             });
-//             console.log("Quizzes : ", JSON.stringify(result));
-//             res.end(JSON.stringify(result));
-//         });
-//     }
-// })
+var passport = require('passport');
+var jwt = require('jsonwebtoken');
+var requireAuth = passport.authenticate('jwt', { session: false });
 
-router.post('/grades', function (req, res) {
+router.post('/grades', requireAuth, function (req, res) {
     console.log("Inside grades backend");
     add_courses.find({course_id:req.body.course_id}, function (err, result) {
         if (err){

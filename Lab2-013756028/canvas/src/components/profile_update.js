@@ -43,9 +43,11 @@ class profile_update extends Component {
             student_id: localStorage.getItem('student_id'),
             faculty_id: localStorage.getItem('faculty_id')
         }
+        var token = localStorage.getItem("token");
 
         axios.defaults.withCredentials = true;
-        axios.post('http://localhost:3001/edit_profile',data)
+        axios.post('http://localhost:3001/edit_profile',data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
         .then(response => {
           this.setState({
             ...response.data[0]
@@ -66,7 +68,9 @@ class profile_update extends Component {
             faculty_id: localStorage.getItem('faculty_id')
             }
         )
-        axios.post('http://localhost:3001/profile_update',this.state)
+        var token = localStorage.getItem("token");
+        axios.post('http://localhost:3001/profile_update',this.state,{
+            headers: {"Authorization" : `Bearer ${token}`}})
                .then((response) => {
                    alert('here')
                 //update the state with the response data

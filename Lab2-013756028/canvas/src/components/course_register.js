@@ -58,8 +58,9 @@ class course_register extends Component {
         var data = {
             'student_id': localStorage.getItem('student_id'),
         }
-
-        axios.post('http://localhost:3001/course_register/', data)
+        var token = localStorage.getItem("token");
+        axios.post('http://localhost:3001/course_register/', data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
         .then(response => {
             if (response.status === 200) {
                 console.log(response.data);
@@ -82,7 +83,9 @@ class course_register extends Component {
             'student_id': localStorage.getItem('student_id'),
             'student_or_faculty': localStorage.getItem('student_or_faculty')
         }
-        axios.post('http://localhost:3001/search/', data)
+        var token = localStorage.getItem("token");
+        axios.post('http://localhost:3001/search/',data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
             .then(response => {
                 if (response.status === 200) {
                     console.log(response.data);
@@ -115,8 +118,9 @@ class course_register extends Component {
         }
         console.log(data.course_id_register_drop)
         console.log('state' + data.register_drop)
-
-        axios.post('http://localhost:3001/course_register/', data)
+        var token = localStorage.getItem("token");
+        axios.post('http://localhost:3001/course_register/', data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
             .then(response => {
                 if (response.status === 200) {
                     console.log(response.data);

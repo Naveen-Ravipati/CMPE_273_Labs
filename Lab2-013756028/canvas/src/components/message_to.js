@@ -55,7 +55,9 @@ class message_to extends Component {
             id: this.state.from,
             student_or_faculty: this.state.from_student_or_faculty
         }
-        await axios.post('http://localhost:3001/students_list', data)
+        var token = localStorage.getItem("token");
+        await axios.post('http://localhost:3001/students_list', data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
             .then((response) => {
                 //update the state with the response data
                 this.setState({
@@ -63,7 +65,8 @@ class message_to extends Component {
                 })
                 console.log(this.state.students_list)
             });
-        await axios.post('http://localhost:3001/faculty_list', data)
+        await axios.post('http://localhost:3001/faculty_list', data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
             .then((response) => {
                 //update the state with the response data
                 this.setState({

@@ -52,8 +52,10 @@ class dashboard extends Component {
             faculty_id: this.state.faculty_id,
             student_or_faculty: localStorage.getItem('student_or_faculty')
         }
+        var token = localStorage.getItem("token");
         console.log('Dashboard faculty ID' + this.state.faculty_id)
-        await axios.post('http://localhost:3001/dashboard_courses', data)
+        await axios.post('http://localhost:3001/dashboard_courses', data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
             .then((response) => {
                 //update the state with the response data
                 // if (this.state.courses == '') {
@@ -96,11 +98,6 @@ class dashboard extends Component {
       }
 
     render() {
-        //if not logged in go to login page
-        // let redirectVar = null;
-        // if (!cookie.load('cookie')) {
-        //     redirectVar = <Redirect to="/login" />
-        // }
 
         let courses = this.state.courses.map((course,idx) => {
                 return (

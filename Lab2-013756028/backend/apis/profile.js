@@ -8,39 +8,11 @@ var con = require('../config/sql').con
 var {student_details} = require('../models/student_details')
 var {faculty_details} = require('../models/faculty_details')
 
-// router.post('/profile_update', function (req, res) {
-//     console.log("Inside Profile_update");
+var passport = require('passport');
+var jwt = require('jsonwebtoken');
+var requireAuth = passport.authenticate('jwt', { session: false });
 
-//     console.log('abc' + req.body.email)
-//     console.log('SID' + req.body.student_id)
-//     console.log(req.body.name)
-//     if (req.body.student_or_faculty == 'student') {
-//         let qury = "UPDATE student_details SET name = " + mysql.escape(req.body.name) + "," + "email = " + mysql.escape(req.body.email) + "," + "company = " + mysql.escape(req.body.company) + "," + "school = " + mysql.escape(req.body.school) + "," + "languages = " + mysql.escape(req.body.languages) + "," + "gender = " + mysql.escape(req.body.gender) + "," + "mobile = " + mysql.escape(req.body.mobile_number) + "," + "phone_number = " + mysql.escape(req.body.phone_number) + "," + "city = " + mysql.escape(req.body.city) + "," + "hometown = " + mysql.escape(req.body.hometown) + "," + "country = " + mysql.escape(req.body.country) + "," + "about_me = " + mysql.escape(req.body.about_me) + " WHERE student_id = " + mysql.escape(req.body.student_id) + ";"
-//         console.log(qury)
-//         con.query(qury, function (err, result) {
-//             if (err) throw err;
-//             // console.log(result);
-//             res.writeHead(200, {
-//                 'Content-Type': 'application/json'
-//             });
-//             res.end('update completed');
-//         });
-//     }
-//     else {
-//         let qury = "UPDATE faculty_details SET name = " + mysql.escape(req.body.name) + "," + "email = " + mysql.escape(req.body.email) + "," + "company = " + mysql.escape(req.body.company) + "," + "school = " + mysql.escape(req.body.school) + "," + "languages = " + mysql.escape(req.body.languages) + "," + "gender = " + mysql.escape(req.body.gender) + "," + "mobile = " + mysql.escape(req.body.mobile_number) + "," + "phone_number = " + mysql.escape(req.body.phone_number) + "," + "city = " + mysql.escape(req.body.city) + "," + "hometown = " + mysql.escape(req.body.hometown) + "," + "country = " + mysql.escape(req.body.country) + "," + "about_me = " + mysql.escape(req.body.about_me) + " WHERE faculty_id = " + mysql.escape(req.body.faculty_id) + ";"
-//         console.log(qury)
-//         con.query(qury, function (err, result) {
-//             if (err) throw err;
-//             // console.log(result);
-//             res.writeHead(200, {
-//                 'Content-Type': 'application/json'
-//             });
-//             res.end('update completed');
-//         });
-//     }
-// })
-
-router.post('/profile_update', function (req, res) {
+router.post('/profile_update',requireAuth, function (req, res) {
     console.log("Inside Profile_update");
 
     console.log('abc' + req.body.email)
@@ -89,37 +61,7 @@ router.post('/profile_update', function (req, res) {
 });
 
 
-// router.post('/edit_profile', function (req, res) {
-//     console.log("Inside edit Profile");
-//     console.log(req.body.student_id)
-//     console.log(req.body.student_or_faculty)
-
-//     if (req.body.student_or_faculty == 'student') {
-//         con.query("SELECT * FROM student_details WHERE student_id = " + mysql.escape(req.body.student_id), function (err, result) {
-//             if (err) throw err;
-//             // console.log(result);
-//             res.writeHead(200, {
-//                 'Content-Type': 'application/json'
-//             });
-//             console.log("Edit Profile : ", JSON.stringify(result));
-//             res.end(JSON.stringify(result));
-//         });
-
-//     }
-//     else {
-//         con.query("SELECT * FROM faculty_details WHERE faculty_id = " + mysql.escape(req.body.faculty_id), function (err, result) {
-//             if (err) throw err;
-//             // console.log(result);
-//             res.writeHead(200, {
-//                 'Content-Type': 'application/json'
-//             });
-//             console.log("Edit Profile : ", JSON.stringify(result));
-//             res.end(JSON.stringify(result));
-//         });
-//     }
-// })
-
-router.post('/edit_profile', function (req, res) {
+router.post('/edit_profile',requireAuth, function (req, res) {
     console.log("Inside edit Profile backend");
     console.log(req.body.student_id)
     console.log(req.body.student_or_faculty)

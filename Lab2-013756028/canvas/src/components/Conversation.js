@@ -48,7 +48,9 @@ class Conversation extends Component {
             to_student_or_faculty:this.props.to_student_or_faculty,
             message_content:this.state.message_content
         }
-        await axios.post('http://localhost:3001/send_message/',data)
+        var token = localStorage.getItem("token");
+        await axios.post('http://localhost:3001/send_message/',data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
             .then(response =>{  
                 if(response.status == 200){
                     console.log('Message successfully updated')
@@ -82,7 +84,9 @@ class Conversation extends Component {
             to:this.props.to,
             to_student_or_faculty:this.props.to_student_or_faculty,
         }
-        await axios.post('http://localhost:3001/conversation/',data)
+        var token = localStorage.getItem("token");
+        await axios.post('http://localhost:3001/conversation/',data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
             .then(response =>{
                 console.log(response.status)
                 if(response.status == 200){

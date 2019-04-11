@@ -8,7 +8,11 @@ var con = require('../config/sql').con
 var { student_details } = require('../models/student_details')
 var { faculty_details } = require('../models/faculty_details')
 
-router.post('/students_list', function (req, res) {
+var passport = require('passport');
+var jwt = require('jsonwebtoken');
+var requireAuth = passport.authenticate('jwt', { session: false });
+
+router.post('/students_list',requireAuth, function (req, res) {
     console.log("Inside students_list message backend");
     console.log(req.body)
     var new_result = []

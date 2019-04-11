@@ -9,6 +9,10 @@ app.set('view engine', 'ejs');
 var bcrypt = require('bcryptjs');
 var mongoose = require('./config/mongodb');
 
+var passport = require('passport');
+require('./config/passport')(passport);
+
+
 var login = require('./apis/login')
 var signup = require('./apis/signup')
 var profile = require('./apis/profile')

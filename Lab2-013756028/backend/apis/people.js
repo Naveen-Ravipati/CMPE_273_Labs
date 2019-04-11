@@ -8,21 +8,12 @@ var con = require('../config/sql').con
 var {student_details} = require('../models/student_details')
 var {add_courses} = require('../models/add_courses')
 
-// router.post('/people', function (req, res) {
-//     console.log("Inside People");
-//     con.query("SELECT * FROM student_details LEFT OUTER JOIN courses_registered ON student_details.student_id = courses_registered.student_id",
-//         function (err, result) {
-//             if (err) throw err;
-//             console.log(result);
-//             res.writeHead(200, {
-//                 'Content-Type': 'application/json'
-//             });
-//             console.log("People : ", JSON.stringify(result));
-//             res.end(JSON.stringify(result));
-//         });
-// })
+var passport = require('passport');
+var jwt = require('jsonwebtoken');
+var requireAuth = passport.authenticate('jwt', { session: false });
 
-router.post('/people', function (req, res) {
+
+router.post('/people', requireAuth, function (req, res) {
     console.log("Inside people backend");
     console.log(req.body.course_id) 
     let new_result = []
@@ -34,7 +25,6 @@ router.post('/people', function (req, res) {
         result.filter((a)=>{
             if(a.courses_registered.course_id == req.body.course_id){
             new_result.push({student_id:a.student_id,name:a.name})
-            // console.log('aaaaaaaaaaaaa'+a.student_id)
             }
         })     
         console.log(result);
@@ -47,7 +37,7 @@ router.post('/people', function (req, res) {
     });
 })
 
-router.post('/drop_course', function (req, res) {
+router.post('/drop_course', requireAuth, function (req, res) {
     console.log("Inside drop course by faculty backend");
     console.log(typeof req.body.course_id) 
     console.log(typeof req.body.student_id)

@@ -13,7 +13,9 @@ class People extends Component {
         const data = {
             course_id: localStorage.getItem('course_id')
         }
-        axios.post('http://localhost:3001/people',data)
+        var token = localStorage.getItem("token");
+        axios.post('http://localhost:3001/people',data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
                 .then((response) => {
                 //update the state with the response data
                     this.setState({
@@ -29,7 +31,9 @@ class People extends Component {
             student_id:val.student_id
         }
         console.log(data.student_id)
-        await axios.post('http://localhost:3001/drop_course',data)
+        var token = localStorage.getItem("token");
+        await axios.post('http://localhost:3001/drop_course',data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
         .then((response) => {
         if(response.status == 200){
             alert('Course Dropped')
@@ -45,7 +49,9 @@ class People extends Component {
         const data = {
             course_id: localStorage.getItem('course_id')
         }
-        await axios.post('http://localhost:3001/people',data)
+        var token = localStorage.getItem("token");
+        await axios.post('http://localhost:3001/people',data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
                 .then((response) => {
                 //update the state with the response data
                     this.setState({

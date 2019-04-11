@@ -20,8 +20,11 @@ export const Profile_fetch = () => dispatch => {
         faculty_id: localStorage.getItem('faculty_id')
     }
 
+    var token = localStorage.getItem("token");
+
     /********************LOGIN **************************/
-    axios.post('http://localhost:3001/edit_profile',data)
+    axios.post('http://localhost:3001/edit_profile',data,{
+        headers: {"Authorization" : `Bearer ${token}`}})
         .then(response => {
             // alert("response received after profile click :", response.status);
             console.log(response.status);

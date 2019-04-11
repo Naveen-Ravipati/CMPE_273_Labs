@@ -20,6 +20,7 @@ export const submit_login = (username, password,student_or_faculty) => dispatch 
         .then(response => {
             // alert("response received after login :", response.status);
             console.log(response.status);
+            localStorage.setItem("token", response.data.Token);
             dispatch({
                 type: SUBMIT_LOGIN,
                 payload: response.status,
