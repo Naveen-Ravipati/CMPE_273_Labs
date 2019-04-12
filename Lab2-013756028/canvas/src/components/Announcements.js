@@ -36,7 +36,9 @@ class Announcements extends Component {
         const data = {
             course_id: localStorage.getItem('course_id'),
         }
-        axios.post('http://localhost:3001/announcements',data)
+        var token = localStorage.getItem("token");
+        axios.post('http://localhost:3001/announcements',data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
             .then((response) => {
                 //update the state with the response data
                     this.setState({
@@ -58,7 +60,9 @@ class Announcements extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/submit_announce', data)
+        var token = localStorage.getItem("token");
+        axios.post('http://localhost:3001/submit_announce', data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
             .then(response => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {

@@ -7,59 +7,54 @@ var mysql = require('../config/sql').mysql
 var con = require('../config/sql').con
 var {add_courses} = require('../models/add_courses')
 
-// router.post('/submit_announce', function (req, res) {
-//     console.log("Inside Submit Announcement");
-//     console.log("Req Body : ", req.body);
-//     con.query("INSERT INTO announcements (course_id, Date, Announce) VALUES(?,?,?)", [req.body.course_id, req.body.date, req.body.announce], function (err, result) {
-//         if (err) throw err;
-//         res.writeHead(200, {
-//             'Content-Type': 'text/plain'
-//         })
-//         res.end("Successfully Updated");
-//     })
-// });
+var passport = require('passport');
+var jwt = require('jsonwebtoken');
+var requireAuth = passport.authenticate('jwt', { session: false });
 
-router.post('/submit_announce', function (req, res) {
+//Kafka
+var kafka = require('../kafka/client');
+
+
+router.post('/submit_announce',requireAuth, function (req, res) {
     console.log("Inside Submit Announcement");
     console.log("Req Body : ", req.body);
-    add_courses.findOneAndUpdate({course_id : req.body.course_id},{$push: {announcements:{course_id:req.body.course_id , date:req.body.date , announce:req.body.announce}}},{upsert:true}, function (err, result) {
-        if (err){
-            console.log('Error fetching data for announcements')
+
+    kafka.make_request("submit_announce", req.body, function (err, result) {
+        if (err) {
+            console.log("Error in Submitting Announcement", err);
+            res.writeHead(400, {
+                'Content-type': 'text/plain'
+            });
+            res.end('Error in Submitting Announcement');
         }
-        res.writeHead(200, {
-            'Content-Type': 'text/plain'
-        })
-        res.end("Successfully Updated");
+        else {
+            res.writeHead(200, {
+                'Content-type': 'application/json'
+            });
+            res.end("Successfully Updated");
+        }
     })
 });
 
 
-// router.post('/announcements', function (req, res) {
-//     console.log("Inside announcements");
-//     con.query("SELECT * FROM announcements", function (err, result) {
-//         if (err) throw err;
-//         console.log(result);
-//         res.writeHead(200, {
-//             'Content-Type': 'application/json'
-//         });
-//         console.log("Announcements : ", JSON.stringify(result));
-//         res.end(JSON.stringify(result));
-//     });
-// })
-
-router.post('/announcements', function (req, res) {
+router.post('/announcements',requireAuth, function (req, res) {
     console.log("Inside announcements");
-    add_courses.find({course_id:req.body.course_id}, function (err, result) {
-        if (err){
-            console.log('Error fetching data for announcements')
+
+    kafka.make_request("announcements", req.body, function (err, result) {
+        if (err) {
+            console.log("Error in Announcements", err);
+            res.writeHead(400, {
+                'Content-type': 'text/plain'
+            });
+            res.end('Error in Announcements');
         }
-        console.log(result);
-        res.writeHead(200, {
-            'Content-Type': 'application/json'
-        });
-        console.log("Announcements : ", JSON.stringify(result));
-        res.end(JSON.stringify(result));
-    });
+        else {
+            res.writeHead(200, {
+                'Content-type': 'application/json'
+            });
+            res.end(JSON.stringify(result));
+        }
+    })
 })
 
 module.exports = router;

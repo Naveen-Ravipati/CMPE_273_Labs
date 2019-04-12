@@ -13,7 +13,7 @@ var jwt = require('jsonwebtoken');
 var requireAuth = passport.authenticate('jwt', { session: false });
 
 
-router.post('/people', requireAuth, function (req, res) {
+router.post('/people', function (req, res) {
     console.log("Inside people backend");
     console.log(req.body.course_id) 
     let new_result = []
@@ -37,7 +37,7 @@ router.post('/people', requireAuth, function (req, res) {
     });
 })
 
-router.post('/drop_course', requireAuth, function (req, res) {
+router.post('/drop_course', function (req, res) {
     console.log("Inside drop course by faculty backend");
     console.log(typeof req.body.course_id) 
     console.log(typeof req.body.student_id)

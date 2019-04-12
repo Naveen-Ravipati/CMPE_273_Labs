@@ -3,7 +3,6 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 import {Redirect} from 'react-router';
 import Announcements from './Announcements';
-import Test1 from './Test1';
 import '../styles/courses_page.css'
 import Navbar from './LandingPage/Navbar';
 import Quiz from './Quiz'

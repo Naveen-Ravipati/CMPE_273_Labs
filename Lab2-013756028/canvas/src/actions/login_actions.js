@@ -28,7 +28,7 @@ export const submit_login = (username, password,student_or_faculty) => dispatch 
             })
         })
         .catch((error) => {
-            // console.log("Action Catch : ", error.response.status);
+            console.log("Action Catch : ", error.response.status);
             dispatch({
                 //ERROR 400 status
                 type: SUBMIT_LOGIN,

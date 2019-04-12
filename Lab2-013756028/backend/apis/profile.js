@@ -12,51 +12,33 @@ var passport = require('passport');
 var jwt = require('jsonwebtoken');
 var requireAuth = passport.authenticate('jwt', { session: false });
 
+//Kafka
+var kafka = require('../kafka/client');
+
 router.post('/profile_update',requireAuth, function (req, res) {
     console.log("Inside Profile_update");
 
-    console.log('abc' + req.body.email)
-    console.log('SID' + req.body.student_id)
+    console.log(req.body.email)
+    console.log(req.body.student_id)
     console.log(req.body.student_or_faculty)
     console.log(req.body)
-    if (req.body.student_or_faculty == 'student') {
-        student_details.updateOne({
-            student_id: req.body.student_id
-        }, {name:req.body.name,email:req.body.email,company:req.body.company,school:req.body.school,languages:req.body.languages,gender:req.body.gender,mobile:req.body.mobile,phone_number:req.body.phone_number,city:req.body.city,hometown:req.body.hometown,country:req.body.country,about_me:req.body.about_me}, function (err, result) {
-            console.log(err)
-            if (err) {
-            console.log('here')
+
+    kafka.make_request("profile_update", req.body, function (err, result) {
+        if (err) {
+            console.log("Error in Profile update", err);
             res.writeHead(400, {
-                'Content-Type': 'application/json'
+                'Content-type': 'text/plain'
             });
-            res.end('Update not successful');
-            }
-            else if (result) {
+            res.end('Error in Profile update');
+        }
+        else {
+            console.log('Profile update: ', JSON.stringify(result));
             res.writeHead(200, {
-                'Content-Type': 'application/json'
+                'Content-type': 'application/json'
             });
-            res.end('update completed');
-            }
-        })
-    }
-    else if (req.body.student_or_faculty == 'faculty') {
-        faculty_details.updateOne({
-            faculty_id: req.body.faculty_id
-        }, {name:req.body.name,email:req.body.email,company:req.body.company,school:req.body.school,languages:req.body.languages,gender:req.body.gender,mobile:req.body.mobile,phone_number:req.body.phone_number,city:req.body.city,hometown:req.body.hometown,country:req.body.country,about_me:req.body.about_me}, function (err, result) {
-            if (err) {
-            res.writeHead(400, {
-                'Content-Type': 'application/json'
-            });
-            res.end('Update not successful');
-            }
-            else if (result) {
-            res.writeHead(200, {
-                'Content-Type': 'application/json'
-            });
-            res.end('update completed');
-            }
-        })
-    }
+            res.end('Profile update completed');
+        }
+    })
 
 });
 
@@ -65,44 +47,23 @@ router.post('/edit_profile',requireAuth, function (req, res) {
     console.log("Inside edit Profile backend");
     console.log(req.body.student_id)
     console.log(req.body.student_or_faculty)
-    if (req.body.student_or_faculty == 'student') {
-    student_details.find({
-        student_id: req.body.student_id
-    }, function (err, result) {
+
+    kafka.make_request("edit_profile", req.body, function (err, result) {
         if (err) {
+            console.log("Error in Editing Profile", err);
             res.writeHead(400, {
-                'Content-Type': 'application/json'
-            })
-            console.log("edit_profile error: " + JSON.stringify(result))
-            res.end(JSON.stringify(result));
-        } else if (result) {
+                'Content-type': 'text/plain'
+            });
+            res.end(JSON.stringify(err));
+        }
+        else {
+            console.log('Editing Profile: ', JSON.stringify(result));
             res.writeHead(200, {
-                    'Content-Type': 'application/json'
-                })
-                console.log("Data for edit_profile: " + JSON.stringify(result))
-                res.end(JSON.stringify(result));
+                'Content-type': 'application/json'
+            });
+            res.end(JSON.stringify(result));
         }
     })
-    }
-    else {
-        faculty_details.find({
-            faculty_id: req.body.faculty_id
-        }, function (err, result) {
-            if (err) {
-                res.writeHead(400, {
-                    'Content-Type': 'application/json'
-                })
-                console.log("edit_profile error: " + JSON.stringify(result))
-                res.end(JSON.stringify(result));
-            } else if (result) {
-                res.writeHead(200, {
-                        'Content-Type': 'application/json'
-                    })
-                    console.log("Data for edit_profile: " + JSON.stringify(result))
-                    res.end(JSON.stringify(result));
-            }
-        })
-    }
 
 
 });

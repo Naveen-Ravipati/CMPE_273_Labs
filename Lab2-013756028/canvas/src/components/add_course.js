@@ -46,7 +46,9 @@ class add_course extends Component {
         // })
         let redirectVar = <Redirect to="/dashboard" />
 
-        axios.post('http://localhost:3001/add_course/', this.state)
+        var token = localStorage.getItem("token");
+        axios.post('http://localhost:3001/add_course/', this.state,{
+            headers: {"Authorization" : `Bearer ${token}`}})
             .then(response => {
                 if (response.status === 200) {
                     console.log('Courses Added successfully!')

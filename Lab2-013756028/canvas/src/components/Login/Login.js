@@ -129,7 +129,10 @@ class Login extends Component {
         // alert('here')
         // setTimeout(() => {
         if (this.props.response === 400){
-            alert('Invalid username/password');
+            alert('Error in login');
+        }
+        if (this.props.response === 401){
+            alert('Invalid credentials');
         }
         // }, 500);
         
