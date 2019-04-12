@@ -62,7 +62,9 @@ class Navbar extends Component {
             faculty_id: localStorage.getItem('faculty_id')
 
         })
-        axios.post('http://localhost:3001/dashboard_courses', data)
+        var token = localStorage.getItem("token");
+        axios.post('http://localhost:3001/dashboard_courses', data,{
+            headers: {"Authorization" : `Bearer ${token}`}})
             .then((response) => {
                 console.log(response.data)
                 //update the state with the response data
