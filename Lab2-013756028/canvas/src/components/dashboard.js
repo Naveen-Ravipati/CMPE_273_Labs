@@ -35,15 +35,17 @@ class dashboard extends Component {
         }
 
         if (localStorage.getItem('student_or_faculty') == 'student') {
+            localStorage.setItem('login_id',localStorage.getItem('student_id'))
             await this.setState({
                 student_id: localStorage.getItem('student_id'),
-                student_or_faculty: 'student'
+                student_or_faculty: 'student',
             });
         }
-        else {
+        else{
+            localStorage.setItem('login_id',localStorage.getItem('faculty_id'))
             await this.setState({
                 faculty_id: localStorage.getItem('faculty_id'),
-                student_or_faculty: 'faculty'
+                student_or_faculty: 'faculty',
             });
         }
 

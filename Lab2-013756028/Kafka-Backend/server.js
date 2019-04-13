@@ -29,6 +29,8 @@ var Students_list = require('./services/students_list');
 var Faculty_list = require('./services/faculty_list');
 var Conversation = require('./services/conversation');
 var Send_message = require('./services/send_message');
+var Get_assignment = require('./services/get_assignment');
+var Get_assignment_detail = require('./services/get_assignment_detail');
 
 
 function handleTopicRequest(topic_name, function_name){
@@ -76,3 +78,5 @@ handleTopicRequest("students_list", Students_list);
 handleTopicRequest("faculty_list", Faculty_list);
 handleTopicRequest("conversation", Conversation);
 handleTopicRequest("send_message", Send_message);
+handleTopicRequest("get_assignment", Get_assignment);
+handleTopicRequest("get_assignment_detail", Get_assignment_detail);

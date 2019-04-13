@@ -11,6 +11,7 @@ import People from './People'
 import Grades from './Grades'
 import Assignments from './Assignments'
 import Assignment_details from './Assignment_details';
+import Files from './Files';
 
 
 //Define a Login Component
@@ -50,11 +51,11 @@ class courses_page extends Component{
                 <ul>
                     <div class = 'course_page_side_tab'><a href = '#'>Home</a></div>
                     <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <Announcements/>)}>Announcements</a></div>
-                    <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <Assignments callbackfromparent = {this.mycallback.bind(this,<Assignment_details/>)}/>)}>Assignment</a></div>
+                    <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <Assignments callbackfromparent = {this.mycallback.bind(this,<Assignment_details/>)}/>)}>Assignments</a></div>
                     <div class = 'course_page_side_tab'><a href = '#'>Discussions</a></div>
                     <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <Grades/>)}>Grades</a></div>
                     <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <People/>)}>People</a></div>
-                    {/* <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <Files/>)}>Files</a></div> */}
+                    <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <Files/>)}>Files</a></div>
                     <div class = 'course_page_side_tab'><a href = '#'>Syllabus</a></div>
                     <div class = 'course_page_side_tab'><a onClick = {this.progress.bind(this,<Quiz callbackfromparent = {this.mycallback.bind(this,<Quiz_questions/>)}/>)}>Quizzes</a></div>
                     <div class = 'course_page_side_tab'><a href = '#'>Modules</a></div>

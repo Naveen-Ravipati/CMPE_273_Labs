@@ -9,7 +9,7 @@ export default class Assignments extends Component {
     super(props);
     console.log(props);
     this.state = {
-      assignments_list: [],
+      assignments: [],
       detect: "",
       assignment_name: "",
       assignment_due: "",
@@ -35,31 +35,31 @@ export default class Assignments extends Component {
       assignment_marks: e.target.value
     })
   }
-  componentDidMount=()=> {
+  componentDidMount=async()=> {
     const data = {
       course_id: localStorage.getItem('course_id')
     }
     axios.defaults.withCredentials = true;
 
-    axios.post('http://localhost:3001/get_assignment', data)
+    await axios.post('http://localhost:3001/get_assignment', data)
       .then((response) => {
         if (response.status === 200) {
 
           console.log("success")
-          console.log(response.data[0])
+          console.log(response.data)
 
           //update the state with the response data
           this.setState({
-            assignments_list: response.data[0].assignments
+            assignments: response.data
           });
-          console.log(this.state.assignments_list)
         }
       });
-
+      console.log(this.state.assignments)
   }
+  
   change = (val) => (e) => {
 
-    localStorage.setItem('assignment_id', val.assignment_name)
+    localStorage.setItem('assignment_id', val.assignment_id)
 
     this.props.callbackfromparent();
   }
@@ -87,12 +87,12 @@ export default class Assignments extends Component {
   render() {
 
 
-    if (this.state.assignments_list) {
-      var assignmentslist = this.state.assignments_list.map(assignment => {
+    if (this.state.assignments) {
+      var assignmentslist = this.state.assignments.map(assignment => {
         return (
           <tr>
-            <td onClick={this.change(assignment)} className='col-md-5'>{assignment.assignment_name}</td>
-            <td className='col-md-5'>{assignment.assignment_due}</td>
+            <td onClick={this.change(assignment)} className='col-md-5'>{assignment.name}</td>
+            <td className='col-md-5'>{assignment.due}</td>
           </tr>
         )
       })
