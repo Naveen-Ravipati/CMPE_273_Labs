@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import './Files.css';
 import axios from 'axios';
 
 export default class files extends Component {
@@ -12,26 +11,26 @@ export default class files extends Component {
       loaded: 0,
       folders: [],
       files: [],
-      folderview: "",
-      btnvis: "hidden"
+      folder_view: "",
+      btn_visibility: "hidden"
     }
     if (localStorage.getItem('student_or_faculty') == "faculty") {
-      this.state.btnvis = "visible"
+      this.state.btn_visibility = "visible"
     }
   }
-  folderChangeHandler = (e) => {
+  folder_change_handler = (e) => {
     if (e.target.name == "foldername") {
       this.setState({
         foldername: e.target.value
       })
     }
   }
-  folderviewHandler = (e) => {
+  folder_view_handler = (e) => {
     this.setState({
-      folderview: e.target.value
+      folder_view: e.target.value
     })
   }
-  uploadFile = (e) => {
+  upload_file = (e) => {
     const data = new FormData()
 
     data.append('file', this.state.selectedFile)
@@ -40,7 +39,7 @@ export default class files extends Component {
     console.log(data)
     const data1 = {
       data: data,
-      foldname: this.state.folderview
+      foldname: this.state.folder_view
     }
 
     console.log("data1", data1)
@@ -48,7 +47,7 @@ export default class files extends Component {
     axios.post('http://localhost:3001/uploadfile', data, {
       params: {
         course_id: localStorage.getItem('course_id'),
-        foldname: this.state.folderview
+        foldname: this.state.folder_view
       }
     },
       {
@@ -198,9 +197,9 @@ export default class files extends Component {
         </div>
 
         <form >
-          <div class="row form-group" style={{ height: "60px ", visibility: this.state.btnvis }}>
+          <div class="row form-group" style={{ height: "60px ", visibility: this.state.btn_visibility }}>
             <div class="col col-sm-2">
-              <input type="text" onChange={this.folderChangeHandler} name="foldername" class="form-control" placeholder="Folder Name"></input>
+              <input type="text" onChange={this.folder_change_handler} name="foldername" class="form-control" placeholder="Folder Name"></input>
             </div>
             <div class="col col-sm-3">
               <button onClick={this.createfolder} class="btn btn-primary">Create Folder</button>
@@ -208,13 +207,13 @@ export default class files extends Component {
             </div></div>
 
 
-          <div class="row form-group" style={{ height: "60px", visibility: this.state.btnvis }} >
+          <div class="row form-group" style={{ height: "60px", visibility: this.state.btn_visibility }} >
             <div class="col col-sm-2">
-              <input type="text" onChange={this.folderviewHandler} class="form-control" placeholder="Folder Name"></input>
+              <input type="text" onChange={this.folder_view_handler} class="form-control" placeholder="Folder Name"></input>
               <input type="file" name="file_name" id="file_id" onChange={this.handleselectedFile} />
             </div>
             <div class="col col-sm-3">
-              <button onClick={this.uploadFile} class="btn btn-primary">Upload File</button>
+              <button onClick={this.upload_file} class="btn btn-primary">Upload File</button>
             </div>
 
           </div>
