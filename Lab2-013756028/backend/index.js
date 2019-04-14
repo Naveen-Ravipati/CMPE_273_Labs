@@ -33,6 +33,7 @@ var get_assignment = require('./apis/get_assignment')
 var assignment_files = require('./apis/assignment_files')
 var files = require('./apis/files')
 var see_folders = require('./apis/see_folders')
+var permission_numbers = require('./apis/permission_numbers')
 
 // var mlog =require('mocha-logger');
 
@@ -110,6 +111,7 @@ app.use(function (req, res, next) {
     app.use('/', assignment_files);
     app.use('/', files);
     app.use('/', see_folders);
+    app.use('/', permission_numbers);
 
 //start your server on port 3001
 app.listen(3001);

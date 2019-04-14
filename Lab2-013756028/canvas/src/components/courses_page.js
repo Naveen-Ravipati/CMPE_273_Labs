@@ -12,6 +12,7 @@ import Grades from './Grades'
 import Assignments from './Assignments'
 import Assignment_details from './Assignment_details';
 import Files from './Files';
+import Generate_permission_numbers from './Generate_permission_numbers';
 
 
 //Define a Login Component
@@ -49,7 +50,7 @@ class courses_page extends Component{
             </div>
             <div className = 'col-md-1' style={{marginLeft:'-5%', }}>
                 <ul>
-                    <div class = 'course_page_side_tab'><a href = '#'>Home</a></div>
+                    <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <Generate_permission_numbers/>)}>Home</a></div>
                     <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <Announcements/>)}>Announcements</a></div>
                     <div class = 'course_page_side_tab'><a onClick={this.progress.bind(this, <Assignments callbackfromparent = {this.mycallback.bind(this,<Assignment_details/>)}/>)}>Assignments</a></div>
                     <div class = 'course_page_side_tab'><a href = '#'>Discussions</a></div>

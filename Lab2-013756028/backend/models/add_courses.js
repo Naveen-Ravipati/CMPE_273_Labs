@@ -50,6 +50,9 @@ const add_course_schema= new mongoose.Schema({
     grades : {
         type : Array
     },
+    permission_numbers : {
+        type : Array
+    }
     
 },{ strict: false })
 var add_courses = mongoose.model('add_courses',add_course_schema);
