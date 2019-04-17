@@ -38,19 +38,6 @@ router.post('/quizzes', function (req, res) {
 })
 
 
-// router.post('/quiz_questions', function (req, res) {
-//     console.log("Inside Quiz Questions");
-//     con.query("SELECT * FROM quizzes WHERE course_id = " + mysql.escape(req.body.course_id) + "and quiz_id = " + mysql.escape(req.body.quiz_id), function (err, result) {
-//         if (err) throw err;
-//         console.log(result);
-//         res.writeHead(200, {
-//             'Content-Type': 'application/json'
-//         });
-//         console.log("Quiz questions : ", JSON.stringify(result));
-//         res.end(JSON.stringify(result));
-//     });
-// })
-
 router.post('/quiz_questions', function (req, res) {
     console.log("Inside Quiz Questions backend");
     add_courses.find({course_id:req.body.course_id}, function (err, result) {
@@ -68,32 +55,6 @@ router.post('/quiz_questions', function (req, res) {
     });
 })
 
-// router.post('/quiz_submit', async function (req, res) {
-//     let score = 0
-//     console.log("Inside Quiz submit");
-//     console.log('Submitted ' + JSON.stringify(req.body))
-//     request = req.body.quiz_responses
-//     await con.query("SELECT question_number,correct_answer FROM quizzes WHERE course_id = " + mysql.escape(req.body.course_id) + "and quiz_id = " + mysql.escape(req.body.quiz_id), function (err, result) {
-//         if (err) throw err;
-//         console.log("here1", request)
-//         console.log('here2' + JSON.stringify(result))
-//         result.filter(function (quiz_answers) {
-//             request.filter(function (student) {
-//                 if (quiz_answers.question_number == student.question_number && quiz_answers.correct_answer == student.response) {
-//                     score += 1
-//                 }
-//             })
-//         })
-//         con.query("INSERT INTO grades (student_id, course_id, marks, assignment_id) VALUES(?,?,?,?)", [req.body.student_id, req.body.course_id, score, req.body.quiz_id], function (err, result) {
-//         })
-//         console.log(score)
-
-//         res.writeHead(200, {
-//             'Content-Type': 'application/json'
-//         });
-//         res.send(score);
-//     });
-// })
 
 
 router.post('/quiz_submit',async function (req, res) {

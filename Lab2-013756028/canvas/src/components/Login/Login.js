@@ -5,6 +5,7 @@ import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import '../../styles/login.css'
 
+
 /* REDUX IMPORTS BEGIN */
 import { connect } from 'react-redux';
 import { submit_login } from '../../actions/login_actions';
@@ -86,88 +87,79 @@ class Login extends Component {
     }
 
     renderRedirect = () => {
-        alert(this.props.redirectVar)
+        // alert(this.props.response)
+        // alert(this.props.redirectVar)
         if (this.props.redirectVar) {
-            if(this.state.student_or_faculty == 'student'){
+            if (this.state.student_or_faculty == 'student') {
                 localStorage.setItem('student_id', this.state.username);
                 localStorage.setItem('student_or_faculty', 'student');
             }
-            else{
+            else {
                 localStorage.setItem('faculty_id', this.state.username);
                 localStorage.setItem('student_or_faculty', 'faculty');
             }
-        this.setState({
-            redirectVar:<Redirect to='/dashboard' />
-        }) 
+            this.setState({
+                redirectVar: <Redirect to='/dashboard' />
+            })
         }
     }
 
-    componentDidMount=()=>{
+    componentDidMount = () => {
         // alert(+this.props.redirectVar)
         if (this.props.redirectVar == true) {
-        this.setState({
-            redirectVar:<Redirect to='/dashboard' />
-        }) 
+            this.setState({
+                redirectVar: <Redirect to='/dashboard' />
+            })
         }
     }
 
     //submit Login handler to send a request to the node backend
-    submitLogin = async(e) => {
+    submitLogin = async (e) => {
         var headers = new Headers();
         //prevent page from refresh
         e.preventDefault();
         let { username, password, student_or_faculty } = this.state;
-        // const data = {
-        //     username: this.state.username,  
-        //     password: this.state.password,
-        //     student_or_faculty: this.state.student_or_faculty
-        // }
 
         //set the with credentials to true
         axios.defaults.withCredentials = true;
-        await this.props.submit_login(username, password,student_or_faculty)
-        // alert('here')
-        // setTimeout(() => {
-        if (this.props.response === 400){
-            alert('Error in login');
-        }
-        if (this.props.response === 401){
-            alert('Invalid credentials');
-        }
-        // }, 500);
-        
+        await this.props.submit_login(username, password, student_or_faculty)
+
         setTimeout(() => {
-        this.renderRedirect();
+            if (this.props.response === 400) {
+                alert('Error in login User not found');
+            }
+            else if (this.props.response === 401) {
+                alert('Invalid Credentials');
+            }
         }, 500);
-    
+
+        setTimeout(() => {
+            this.renderRedirect();
+        }, 500);
+
     }
 
-    new_submit = async(e) => {
+    new_submit = async (e) => {
         var headers = new Headers();
         //prevent page from refresh
         e.preventDefault();
         let { new_email, new_password, new_studentid, new_student_or_faculty } = this.state;
 
-        // const data = {
-        //     new_email: this.state.new_email,
-        //     new_password: this.state.new_password,
-        //     new_studentid: this.state.new_studentid,
-        //     new_student_or_faculty: this.state.new_student_or_faculty
-        // }
+
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         await this.props.submit_signup(new_email, new_password, new_studentid, new_student_or_faculty)
         setTimeout(() => {
-            if (this.props.response === 200){
+            if (this.props.response === 200) {
                 alert('Signed Up Successfully');
-            }},500)
-            
+            }
+        }, 500)
+
         setTimeout(() => {
-        if (this.props.response === 400){
-            alert('Error creating user');
-        }},500)
-
-
+            if (this.props.response === 400) {
+                alert('Error creating user');
+            }
+        }, 500)
     }
 
     render() {
@@ -177,7 +169,7 @@ class Login extends Component {
         // }
         return (
             <div>
-            {this.state.redirectVar}
+                {this.state.redirectVar}
                 <div class="container" className='col-md-11'>
                     <center>
                         <div class='row container' style={{ marginTop: '20px', marginBottom: '50px', width: '400px', minWidth: '300px', marginLeft: 'auto', marginRight: 'auto', justifyContent: 'center' }}>
@@ -196,7 +188,7 @@ class Login extends Component {
                                 <div class='z'>
                                     <div style={{ justifyContent: 'center' }}>
                                         <div> <h4 >Sign In</h4> </div>
-                                        <div style={{ marginBottom: '30px' }}><input style={{ width: '250px', height: '30px' }} onChange={this.usernameChangeHandler} type='text' placeholder='SJSU ID Number'></input></div>
+                                        <div style={{ marginBottom: '30px' }}><input style={{ width: '250px', height: '30px' }} onChange={this.usernameChangeHandler} type='number' placeholder='SJSU ID Number'></input></div>
                                         <div style={{ marginBottom: '15px' }}><input style={{ width: '250px', height: '30px' }} onChange={this.passwordChangeHandler} type='password' placeholder='Password'></input></div>
                                         <div style={{ marginBottom: '15px' }}>
                                             <select onChange={this.faculty_or_student_changehandler}>
@@ -207,24 +199,24 @@ class Login extends Component {
                                         <div style={{ marginBottom: '15px' }}><input id='check' type='checkbox'></input><label for='check' >Remember Me</label></div>
                                         <div style={{ marginBottom: '15px' }}><button onClick={this.submitLogin} style={{ width: '250px' }} class='btn btn-primary' type='button'>Sign In</button> </div>
                                         <div style={{ marginBottom: '15px' }}>
-                                            <button  style={{ width: '250px' }} class='btn btn-primary' type='button' data-toggle="modal" data-target="#myModal">Sign Up New User</button>
+                                            <button style={{ width: '250px' }} class='btn btn-primary' type='button' data-toggle="modal" data-target="#myModal">Sign Up New User</button>
                                         </div>
                                         <div class="modal fade" id="myModal" role="dialog">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div style={{ backgroundColor: '#337AB7' }} class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        <h4  style = {{color: 'black'}} class="modal-title">Sign Up</h4>
+                                                        <h4 style={{ color: 'black' }} class="modal-title">Sign Up</h4>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div style={{ marginBottom: '5%' }}>
-                                                            <input onChange={this.new_studentidChangeHandler} type='text' required='required' name='new_student_id' placeholder='Student ID'></input>
+                                                            <input onChange={this.new_studentidChangeHandler} type='number' required='required' name='new_student_id' placeholder='Student ID'></input>
                                                         </div>
                                                         <div style={{ marginBottom: '5%' }}>
-                                                            <input onChange={this.new_passwordChangeHandler} type='text' required='required' name='new_password' placeholder='Password'></input>
+                                                            <input onChange={this.new_passwordChangeHandler} type='password' required='required' name='new_password' placeholder='Password'></input>
                                                         </div>
                                                         <div>
-                                                            <input onChange={this.new_emailChangeHandler} type='text' required='required' name='new_email' placeholder='Email'></input>
+                                                            <input onChange={this.new_emailChangeHandler} type='email' required='required' name='new_email' placeholder='Email'></input>
                                                         </div>
                                                         <div style={{ marginBottom: '5%' }}>
                                                             <select onChange={this.new_faculty_or_student_changehandler}>

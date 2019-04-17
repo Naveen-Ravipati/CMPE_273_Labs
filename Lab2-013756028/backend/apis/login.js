@@ -29,8 +29,16 @@ router.post('/login', function (req, res) {
             });
             res.end('Error in login!');
         }
+        else if(result == false){
+            console.log("userid invalid")
+            res.sendStatus(400).end();
+        }
+        else if(result == null){
+            console.log("userid invalid")
+            res.sendStatus(401).end();
+        }
         else {
-            console.log('Inside results Login');
+
             if (result) {
                 console.log(req.body)
                 console.log(result)
@@ -54,11 +62,13 @@ router.post('/login', function (req, res) {
                 res.end(JSON.stringify(result));
             }
             else {
-                res.writeHead(401,
-                    {
-                        'Content-type': 'text/plain'
-                    })
-                console.log('Invalid Credentials!');
+                // res.writeHead(401,
+                //     {
+                //         'Content-type': 'text/plain'
+                //     })
+                // console.log('Invalid Credentials!');
+            res.sendStatus(400).end();
+
                 res.end('Invalid Credentials!');
             }
         }

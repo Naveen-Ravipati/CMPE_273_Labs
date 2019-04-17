@@ -11,17 +11,23 @@ function handle_request(msg, callback) {
         student_details.findOne({
             student_id: msg.username
         }, function (err, user) {
+            console.log("STUDENT")
             if (err) {
                 console.log("Unable to fetch user details.", err);
                 callback(err, null);
-            } 
-            else{
-                if (bcrypt.compareSync(msg.password, user.password)) {
-                    console.log('Valid Credentials!');
-                    callback(null, user); 
-                }
-                else {            
-                    callback(null, null); 
+            }
+            else {
+                if (user) {
+                    if (bcrypt.compareSync(msg.password, user.password)) {
+                        console.log('Valid Credentials!');
+                        callback(null, user);
+                    }
+                    else {
+                        callback(null, null);
+                    }
+                } else {
+                    console.log("false")
+                    callback(null, null);
                 }
             }
         })
@@ -31,19 +37,29 @@ function handle_request(msg, callback) {
         faculty_details.findOne({
             faculty_id: msg.username
         }, function (err, user) {
+            console.log("FACULTY")
+
             if (err) {
                 console.log("Unable to fetch faculty details.", err);
                 callback(err, null);
-            } else if (user) {
-                if (bcrypt.compareSync(msg.password, user.password)) {
-                    console.log('Valid Credentials!');
-                    callback(null, user);
-                }
-                else {
-                    callback(null, null);
+            } else {
+                if (user) {
+                    if (bcrypt.compareSync(msg.password, user.password)) {
+                        console.log('Valid Credentials!');
+                        callback(null, user);
+                    }
+                    else {
+                        console.log("false false")
+                        callback(null, null);
+                    }
+                } else {
+                    console.log("false")
+                    callback(null, false);
                 }
             }
-        })
+        }
+        
+        )
     }
 }
 

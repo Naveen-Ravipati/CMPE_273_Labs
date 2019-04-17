@@ -9,33 +9,6 @@ var {student_details} = require('../models/student_details')
 var {faculty_details} = require('../models/faculty_details')
 
 
-// router.post('/new_user', function (req, res) {
-
-//     console.log("Inside New user Post Request");
-//     console.log("Req Body : ", req.body);
-//     var salt = bcrypt.genSaltSync(10);
-//     // Hash the password with the salt
-//     var hash = bcrypt.hashSync(req.body.new_password, salt);
-//     if (req.body.new_student_or_faculty == 'student') {
-//         con.query("INSERT INTO student_details (student_id, password, email) VALUES(?,?,?)", [req.body.new_studentid, hash, req.body.new_email], function (err, result) {
-//             if (err) throw err;
-//             res.writeHead(200, {
-//                 'Content-Type': 'text/plain'
-//             })
-//             res.end("Successful signup");
-//         })
-//     }
-//     else {
-//         con.query("INSERT INTO faculty_details (faculty_id, password, email) VALUES(?,?,?)", [req.body.new_studentid, hash, req.body.new_email], function (err, result) {
-//             if (err) throw err;
-
-//             res.writeHead(200, {
-//                 'Content-Type': 'text/plain'
-//             })
-//             res.end("Successful signup");
-//         })
-//     }
-// });
 
 router.post('/new_user', (req, res) => {
     console.log("Inside Signup backend");

@@ -19,16 +19,31 @@ export const submit_login = (username, password,student_or_faculty) => dispatch 
     axios.post('http://localhost:3001/login', data)
         .then(response => {
             // alert("response received after login :", response.status);
-            console.log(response.status);
+            console.log("response",response.status);
+            if(response.status == 200){
+            // alert(response.status)
+            
             localStorage.setItem("token", response.data.Token);
             dispatch({
                 type: SUBMIT_LOGIN,
                 payload: response.status,
+            })
+        }
+        else{
+            // alert(response.status)
+            dispatch({
+                //ERROR 400 status
+                type: SUBMIT_LOGIN,
+                payload: response.status,
 
             })
+        }
         })
         .catch((error) => {
+            // alert(error.response.status)
+            // alert('login action error')
             console.log("Action Catch : ", error.response.status);
+
             dispatch({
                 //ERROR 400 status
                 type: SUBMIT_LOGIN,
