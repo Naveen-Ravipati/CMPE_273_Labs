@@ -1,0 +1,43 @@
+{
+  "name": "canvas",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "availity-reactstrap-validation": "^2.5.1",
+    "axios": "^0.18.0",
+    "bootstrap": "^4.0.0",
+    "font-awesome": "^4.7.0",
+    "js-file-download": "^0.4.4",
+    "react": "^16.8.3",
+    "react-cookie": "^3.0.4",
+    "react-cookies": "^0.1.0",
+    "react-dom": "^16.8.3",
+    "react-pdf": "^4.0.5",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.5",
+    "reactstrap": "^8.0.0",
+    "redux": "^4.0.0",
+    "redux-devtools-extension": "^2.13.5",
+    "redux-form": "^7.4.2",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^5.10.0",
+    "redux-thunk": "^2.3.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
