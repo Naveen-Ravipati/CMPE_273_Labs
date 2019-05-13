@@ -61,6 +61,15 @@ const messages = new GraphQLObjectType({
     })
 })
 
+const signup_data = new GraphQLObjectType({
+    name: 'signup_data',
+    fields: ()=>({
+        email : {type: GraphQLString},
+        password : {type: GraphQLString},
+        student_id  : {type: GraphQLString},
+    })
+})
+
 
 const student_ProfileType = new GraphQLObjectType({
     name: 'student_ProfileType',
@@ -157,6 +166,17 @@ const OwnerType = new GraphQLObjectType({
         email: { type: GraphQLString },
         password: { type: GraphQLString },
         status: { type: GraphQLInt }
+    })
+})
+
+const signup_type = new GraphQLObjectType({
+    name: 'signup_type',
+    fields: () => ({
+        // student_id: { type: GraphQLString },
+        // email: { type: GraphQLString},
+        // password: { type: GraphQLString },
+        status: { type: GraphQLInt},
+        signup_data: { type: signup_data }
     })
 })
 
@@ -381,128 +401,42 @@ const Query = new GraphQLObjectType({
     }
 })
 
-var addTravelerResult;
-var addOwnerResult;
-var addUpdateProfileResult;
+var signup_result;
 
 const Mutation = new GraphQLObjectType({
     name: 'Mutation', //used in exports
     fields: {
-        addTraveler: {
-            type: TravelerType,
+        signup: {
+            type: signup_type,
             args: {
-                firstName: { type: GraphQLString },
-                lastName: { type: GraphQLString },
-                email: { type: GraphQLString },
-                password: { type: GraphQLString }
+                new_email: { type: GraphQLString },
+                new_student_id: { type: GraphQLString },
+                new_password: { type: GraphQLString },
+                new_student_or_faculty: { type: GraphQLString }
             },
             async resolve(parent, args) {
-                //new traveler creation with imported travelerschema.
                 var salt = bcrypt.genSaltSync(10);
-                var hash = bcrypt.hashSync(args.password, salt);
-                let traveler = new traveler1({ //dont use same names
-                    firstName: args.firstName,
-                    lastName: args.lastName,
-                    email: args.email,
+                var hash = bcrypt.hashSync(args.new_password, salt);
+                let new_student = new student_details({
+                    email: args.new_email,
+                    student_id: args.new_student_id,
                     password: hash
                 })
-                await traveler.save().then((res)=> {
+                await new_student.save().then((res)=> {
                     if (res) {
-                        res.status = 200;
-                        addTravelerResult = res;
-                    } else {
-                        res.status = 400;
-                        addTravelerResult = res;
+                        signup_result = {
+                            status:200,
+                            signup_data:res
+                        }
+                    }
+                    else {
+                        signup_result = {
+                            status:400
+                        }
                     }
                 })
-                return addTravelerResult;
+                return signup_result;
 
-            }
-        },
-        addOwner: {
-            type: OwnerType,
-            args: {
-                firstName: { type: GraphQLString },
-                lastName: { type: GraphQLString },
-                email: { type: GraphQLString },
-                password: { type: GraphQLString }
-            },
-            async resolve(parent, args) {
-                //new traveler creation with imported travelerschema.
-                var salt = bcrypt.genSaltSync(10);
-                var hash = bcrypt.hashSync(args.password, salt);
-                let owner = new owner1({
-                    firstName: args.firstName,
-                    lastName: args.lastName,
-                    email: args.email,
-                    password: hash
-                })
-                await owner.save().then((res)=> {
-                    if (res) {
-                        res.status = 200;
-                        addOwnerResult = res;
-                    } else {
-                        res.status = 400;
-                        addOwnerResult = res;
-                    }
-                })
-                return addOwnerResult;
-            }
-        },
-        addProperty: {
-            type: PropertyType,
-            args: {
-                country: { type: GraphQLString },
-                street: { type: GraphQLString },
-                building: { type: GraphQLString },
-                city: { type: GraphQLString },
-                state: { type: GraphQLString },
-                zipcode: { type: GraphQLString },
-                headline: { type: GraphQLString },
-                description: { type: GraphQLString },
-                type: { type: GraphQLString },
-                bedrooms: { type: GraphQLInt },
-                accomodates: { type: GraphQLInt },
-                bathrooms: { type: GraphQLInt },
-                bookingoptions: { type: GraphQLInt },
-                photos: { type: GraphQLString },
-                startdate: { type: GraphQLString },
-                enddate: { type: GraphQLString },
-                currency: { type: GraphQLString },
-                rent: { type: GraphQLInt },
-                tax: { type: GraphQLInt },
-                cleaningfee: { type: GraphQLInt },
-                ownername: { type: GraphQLString },
-                bookedUser: { type: GraphQLString },
-            },
-            resolve(parent, args) {
-                property1.updateOne({ ownername: args.ownername }, { $set: { ...args } }, { upsert: true }, (err, result) => {
-                    if (err) {
-                        console.log("Something wrong when updating data!");
-                    }
-                    console.log(result);
-                    return result;
-                });
-                return args;
-            }
-        },
-        makeBooking: {
-            type: PropertyType,
-            args: {
-                startdate: { type: GraphQLString },
-                enddate: { type: GraphQLString },
-                ownername: { type: GraphQLString },
-                bookedUser: { type: GraphQLString },
-            },
-            resolve(parent, args) {
-                property1.updateOne({ ownername: args.ownername }, { $set: { ...args } }, { upsert: true }, (err, result) => {
-                    if (err) {
-                        console.log("Something wrong when updating data!");
-                    }
-                    console.log(result);
-                    return result;
-                });
-                return args;
             }
         },
     }

@@ -17,6 +17,7 @@ import { stat } from 'fs';
 import { graphql, compose } from 'react-apollo';
 import { withApollo } from 'react-apollo';
 import { validate_student_login, validate_faculty_login } from '../../queries/login';
+import { signup } from '../../mutation/signup';
 /* GRAPHQL IMPORTS END */
 
 
@@ -31,7 +32,7 @@ class Login extends Component {
             username: "",
             password: "",
             student_or_faculty: 'student',
-            new_studentid: '',
+            new_student_id: '',
             new_password: '',
             new_email: '',
             new_student_or_faculty: 'student',
@@ -197,23 +198,40 @@ class Login extends Component {
         var headers = new Headers();
         //prevent page from refresh
         e.preventDefault();
-        let { new_email, new_password, new_studentid, new_student_or_faculty } = this.state;
+        let { new_email, new_password, new_student_id, new_student_or_faculty } = this.state;
 
-
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        await this.props.submit_signup(new_email, new_password, new_studentid, new_student_or_faculty)
-        setTimeout(() => {
-            if (this.props.response === 200) {
-                alert('Signed Up Successfully');
+        await this.props.signup({
+            variables: {
+                new_email: this.state.new_email,
+                new_password: this.state.new_password,
+                new_student_id: this.state.new_student_id,
+                new_student_or_faculty: this.state.new_student_or_faculty
             }
-        }, 500)
+        }).then((response) => {
+            console.log(response.data.signup);
+        // if(response.data.student_login.status == 200){
 
-        setTimeout(() => {
-            if (this.props.response === 400) {
-                alert('Error creating user');
-            }
-        }, 500)
+        //         localStorage.setItem('student_id', this.state.username);
+        //         localStorage.setItem('student_or_faculty', 'student');
+        //     this.setState({
+        //         redirectVar: <Redirect to='/dashboard' />
+        //     })
+        // }
+        })
+        // //set the with credentials to true
+        // axios.defaults.withCredentials = true;
+        // await this.props.submit_signup(new_email, new_password, new_studentid, new_student_or_faculty)
+        // setTimeout(() => {
+        //     if (this.props.response === 200) {
+        //         alert('Signed Up Successfully');
+        //     }
+        // }, 500)
+
+        // setTimeout(() => {
+        //     if (this.props.response === 400) {
+        //         alert('Error creating user');
+        //     }
+        // }, 500)
     }
 
     render() {
@@ -319,5 +337,6 @@ const mapStateToProps = (state) => ({
 })
 
 export default withApollo(Login);
+// export default graphql(signup, { name: "signup" })(Login);
 // export default connect(mapStateToProps, { submit_login, submit_signup })(Login);
 //export default Login;
