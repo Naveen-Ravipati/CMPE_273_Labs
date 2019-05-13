@@ -8,6 +8,12 @@ import Navbar from '../components/LandingPage/Navbar';
 /* REDUX IMPORTS BEGIN */
 import { connect } from 'react-redux';
 
+/* GRAPHQL IMPORTS BEGIN */
+import { graphql, compose } from 'react-apollo';
+import { withApollo } from 'react-apollo';
+import { validate_dashboard } from '../queries/dashboard';
+/* GRAPHQL IMPORTS END */
+
 //Define a Login Component
 class dashboard extends Component {
     //call the constructor method
@@ -27,50 +33,52 @@ class dashboard extends Component {
     componentDidMount = async () => {
         // alert('dashboard')
         // alert(this.props.redirectVar)
-        if (this.props.redirectVar == false) {
-            // alert('here')
-        this.setState({
-            redirectVar:<Redirect to='/' />
-        }) 
-        }
+        // if (this.props.redirectVar == false) {
+        // this.setState({
+        //     redirectVar:<Redirect to='/' />
+        // }) 
+        // }
+        console.log('Dashboard faculty ID' + this.state.faculty_id)
 
-        if (localStorage.getItem('student_or_faculty') == 'student') {
+        if(localStorage.getItem('student_or_faculty') == 'student'){
             localStorage.setItem('login_id',localStorage.getItem('student_id'))
-            await this.setState({
-                student_id: localStorage.getItem('student_id'),
-                student_or_faculty: 'student',
-            });
         }
         else{
             localStorage.setItem('login_id',localStorage.getItem('faculty_id'))
-            await this.setState({
-                faculty_id: localStorage.getItem('faculty_id'),
-                student_or_faculty: 'faculty',
-            });
         }
 
-        const data = {
-            student_id: this.state.student_id,
-            faculty_id: this.state.faculty_id,
-            student_or_faculty: localStorage.getItem('student_or_faculty')
+        await this.props.client.query({
+            query: validate_dashboard,
+            variables: {
+                login_id: localStorage.getItem('login_id'),
+                student_or_faculty: localStorage.getItem('student_or_faculty')
+            }
+        }).then((response) => {
+        console.log(response.data.dashboard);
+        if(response.data.dashboard.status == 200){
+
+            this.setState({
+                courses: response.data.dashboard.course_data
+            })
         }
-        var token = localStorage.getItem("token");
-        console.log('Dashboard faculty ID' + this.state.faculty_id)
-        await axios.post('http://localhost:3001/dashboard_courses', data,{
-            headers: {"Authorization" : `Bearer ${token}`}})
-            .then((response) => {
-                //update the state with the response data
-                // if (this.state.courses == '') {
-                //     this.setState({
-                //         courses: this.state.courses.concat(response.data)
-                //     });
-                // }
-                console.log(response.data)
-                    this.setState({
-                        courses: response.data
-                    });
-                console.log(this.state.courses)
-            });
+        });
+
+
+        // await axios.post('http://localhost:3001/dashboard_courses', data,{
+        //     headers: {"Authorization" : `Bearer ${token}`}})
+        //     .then((response) => {
+        //         //update the state with the response data
+        //         // if (this.state.courses == '') {
+        //         //     this.setState({
+        //         //         courses: this.state.courses.concat(response.data)
+        //         //     });
+        //         // }
+        //         console.log(response.data)
+        //             this.setState({
+        //                 courses: response.data
+        //             });
+        //         console.log(this.state.courses)
+        //     });
     }
 
     allowDrop=(ev)=> {
@@ -145,5 +153,6 @@ const mapStateToProps = (state) => ({
 
 })
 
-export default connect(mapStateToProps)(dashboard);
+export default withApollo(dashboard);
+// export default connect(mapStateToProps)(dashboard);
 // export default dashboard;

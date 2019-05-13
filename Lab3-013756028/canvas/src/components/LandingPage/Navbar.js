@@ -12,6 +12,12 @@ import { submit_logout } from '../../actions/logout_actions';
 import { stat } from 'fs';
 /* REDUX IMPORTS END */
 
+/* GRAPHQL IMPORTS BEGIN */
+import { graphql, compose } from 'react-apollo';
+import { withApollo } from 'react-apollo';
+import { validate_student_login,validate_faculty_login } from '../../queries/login';
+/* GRAPHQL IMPORTS END */
+
 //create the Navbar Component
 class Navbar extends Component {
     constructor(props) {
@@ -31,17 +37,10 @@ class Navbar extends Component {
     handleLogout = async (e) => {
         e.preventDefault();
         localStorage.clear()
-        await this.props.submit_logout()
-        // setTimeout(() => {
-            if (this.props.response === 400) {
-            alert('LOGOUT Unsuccessful');}
-        // }, 500);
         
-        if(!this.props.redirectVar){
             this.setState({
                 redirectVar : <Redirect to="/" />
             })
-        }
     }
 
     toggle_account_sidebar = () => {
@@ -81,12 +80,12 @@ class Navbar extends Component {
 
     componentDidMount=async()=>{
 
-        if (this.props.redirectVar == false) {
-            // alert('here')
-        this.setState({
-            redirectVar:<Redirect to='/' />
-        }) 
-        }
+        // if (this.props.redirectVar == false) {
+        //     // alert('here')
+        // this.setState({
+        //     redirectVar:<Redirect to='/' />
+        // }) 
+        // }
         await this.setState({
             student_or_faculty: localStorage.getItem('student_or_faculty'),
         })
@@ -140,7 +139,6 @@ class Navbar extends Component {
                         </center>
                     </div>
                     {this.state.redirectVar}
-                    {/* {redirectVar} */}
                     <hr></hr>
                     <ul> <div class='profile'>
                         <list><a class='btn btn-primary profile' href='./edit_profile'>Profile</a></list><br></br></div>
@@ -252,5 +250,7 @@ const mapStateToProps = (state) => ({
     response: state.loginState.response
 })
 
-export default connect(mapStateToProps, { submit_logout })(Navbar);
+export default withApollo(Navbar);
+
+// export default connect(mapStateToProps, { submit_logout })(Navbar);
 //export default Login;

@@ -13,6 +13,12 @@ import { submit_signup } from '../../actions/signup_actions';
 import { stat } from 'fs';
 /* REDUX IMPORTS END */
 
+/* GRAPHQL IMPORTS BEGIN */
+import { graphql, compose } from 'react-apollo';
+import { withApollo } from 'react-apollo';
+import { validate_student_login, validate_faculty_login } from '../../queries/login';
+/* GRAPHQL IMPORTS END */
+
 
 //Define a Login Component
 class Login extends Component {
@@ -120,22 +126,70 @@ class Login extends Component {
         e.preventDefault();
         let { username, password, student_or_faculty } = this.state;
 
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        await this.props.submit_login(username, password, student_or_faculty)
-
-        setTimeout(() => {
-            if (this.props.response === 400) {
-                alert('Error in login User not found');
+    if(this.state.student_or_faculty == 'student'){
+        console.log(this.props);
+        this.props.client.query({
+            query: validate_student_login,
+            variables: {
+                username: this.state.username,
+                password: this.state.password,
             }
-            else if (this.props.response === 401) {
-                alert('Invalid Credentials');
-            }
-        }, 500);
+        }).then((response) => {
+            console.log(response.data.student_login);
+        if(response.data.student_login.status == 200){
 
-        setTimeout(() => {
-            this.renderRedirect();
-        }, 500);
+                localStorage.setItem('student_id', this.state.username);
+                localStorage.setItem('student_or_faculty', 'student');
+            this.setState({
+                redirectVar: <Redirect to='/dashboard' />
+            })
+        }
+        else{
+            alert('Login Unsuccessful')
+        }
+        });
+    }
+    else{
+        console.log(this.props);
+        this.props.client.query({
+            query: validate_faculty_login,
+            variables: {
+                username: this.state.username,
+                password: this.state.password,
+            }
+        }).then((response) => {
+            console.log(response.data.faculty_login);
+        if(response.data.faculty_login.status == 200){
+                localStorage.setItem('faculty_id', this.state.username);
+                localStorage.setItem('student_or_faculty', 'faculty');
+            this.setState({
+                redirectVar: <Redirect to='/dashboard' />
+            })
+        }
+        else{
+            alert('Login Unsuccessful')
+        }
+
+        });
+
+    }
+
+        // //set the with credentials to true
+        // axios.defaults.withCredentials = true;
+        // await this.props.submit_login(username, password, student_or_faculty)
+
+        // setTimeout(() => {
+        //     if (this.props.response === 400) {
+        //         alert('Error in login User not found');
+        //     }
+        //     else if (this.props.response === 401) {
+        //         alert('Invalid Credentials');
+        //     }
+        // }, 500);
+
+        // setTimeout(() => {
+        //     this.renderRedirect();
+        // }, 500);
 
     }
 
@@ -264,5 +318,6 @@ const mapStateToProps = (state) => ({
 
 })
 
-export default connect(mapStateToProps, { submit_login, submit_signup })(Login);
+export default withApollo(Login);
+// export default connect(mapStateToProps, { submit_login, submit_signup })(Login);
 //export default Login;

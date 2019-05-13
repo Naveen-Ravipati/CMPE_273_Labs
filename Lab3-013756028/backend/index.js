@@ -15,6 +15,11 @@ app.use(passport.initialize());
 
 require('./config/passport')(passport);
 
+//************************** GRAPHQL ********************************//
+const graphqlHTTP = require('express-graphql');
+const schema = require('./schemas/schema');
+//************************** GRAPHQL ********************************//
+
 
 var login = require('./apis/login')
 var signup = require('./apis/signup')
@@ -90,7 +95,15 @@ app.use(function (req, res, next) {
     next();
 });
 
+//************************** GRAPHQL ********************************//
 
+//default route for graphql
+app.use("/graphql",graphqlHTTP({
+    schema,
+    graphiql: true 
+}));    
+
+//************************** GRAPHQL ********************************//
 
 
 
